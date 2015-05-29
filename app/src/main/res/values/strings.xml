@@ -110,5 +110,6 @@
     <string name="pref_last_notification">last_notification</string>
     
     <string name="empty_list_view">No Weather Information Available</string>
+    <string name="network_not_connected_info">No Weather Information Available. The network is not available to fetch weather data</string>
 
 </resources>

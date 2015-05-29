@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.bojie.sunshine_advanced_android.data.WeatherContract;
 
@@ -135,10 +136,10 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         mForecastAdapter = new ForecastAdapter(getActivity(), null, 0);
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
+        TextView emptyTextView = (TextView) rootView.findViewById(android.R.id.empty);
         // Get a reference to the ListView, and attach this adapter to it.
         mListView = (ListView) rootView.findViewById(R.id.listview_forecast);
-        mListView.setEmptyView(rootView.findViewById(android.R.id.empty));
+        mListView.setEmptyView(emptyTextView);
         mListView.setAdapter(mForecastAdapter);
         // We'll call our MainActivity
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -253,7 +254,10 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             // to, do so now.
             mListView.smoothScrollToPosition(mPosition);
         }
+
+        updateEmptyView();
     }
+
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
@@ -264,6 +268,19 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         mUseTodayLayout = useTodayLayout;
         if (mForecastAdapter != null) {
             mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
+        }
+    }
+
+    private void updateEmptyView() {
+        if (mForecastAdapter.getCount() == 0) {
+            TextView tv = (TextView) getView().findViewById(android.R.id.empty);
+            if ( null != tv) {
+                int message = R.string.empty_list_view;
+                if (!Utility.isNetworkAvailable(getActivity())) {
+                    message = R.string.network_not_connected_info;
+                }
+                tv.setText(message);
+            }
         }
     }
 }
