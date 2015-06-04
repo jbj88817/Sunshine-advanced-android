@@ -36,6 +36,7 @@ import android.widget.TextView;
 
 import com.bojie.sunshine_advanced_android.data.WeatherContract;
 import com.bojie.sunshine_advanced_android.data.WeatherContract.WeatherEntry;
+import com.bumptech.glide.Glide;
 
 
 /**
@@ -185,7 +186,11 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             int weatherId = data.getInt(COL_WEATHER_CONDITION_ID);
 
             // Use weather art image
-            mIconView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherId));
+            Glide.with(this)
+                    .load(Utility.getArtUrlForWeatherCondition(getActivity(), weatherId))
+                    .error(Utility.getIconResourceForWeatherCondition(weatherId))
+                    .crossFade()
+                    .into(mIconView);
 
             // Read date from cursor and update views for day of week and date
             long date = data.getLong(COL_WEATHER_DATE);

@@ -161,7 +161,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         mForecastAdapter = new ForecastAdapter(getActivity(), null, 0);
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        TextView emptyTextView = (TextView) rootView.findViewById(android.R.id.empty);
+        TextView emptyTextView = (TextView) rootView.findViewById(R.id.listview_forecast_empty);
         // Get a reference to the ListView, and attach this adapter to it.
         mListView = (ListView) rootView.findViewById(R.id.listview_forecast);
         mListView.setEmptyView(emptyTextView);
@@ -298,7 +298,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
     private void updateEmptyView() {
         if (mForecastAdapter.getCount() == 0) {
-            TextView tv = (TextView) getView().findViewById(android.R.id.empty);
+            TextView tv = (TextView) getView().findViewById(R.id.listview_forecast_empty);
             if (null != tv) {
                 int message = R.string.empty_forecast_list;
                 @SunshineSyncAdapter.LocationStatus int location = Utility.getLocationStatus(getActivity());
@@ -311,6 +311,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                         break;
                     case SunshineSyncAdapter.LOCATION_STATUS_INVALID:
                         message = R.string.empty_forecast_list_invalid_location;
+                        break;
                     default:
                         if (!Utility.isNetworkAvailable(getActivity())) {
                             message = R.string.empty_forecast_list_no_network;
